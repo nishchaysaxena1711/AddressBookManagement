@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Calendar from 'react-calendar';
-import Dropdown from 'react-dropdown'
-import 'react-dropdown/style.css'
-import PhoneInput from 'react-phone-number-input'
 
 class ContactForm extends Component {
 	constructor(props) {
@@ -28,7 +25,8 @@ class ContactForm extends Component {
 					value: ""
 				}
 			},
-			dob: new Date()
+			dob: new Date(),
+			error: false
 		}
 	}
 
@@ -119,22 +117,50 @@ class ContactForm extends Component {
 		
 	}
 
-	onFormSubmit = (e) => {
+	onSubmit = (e) => {
+		e.preventDefault();
+
 		const {name, emails, phoneNumber, dob} = this.state;
 		let error = false;
-		if(name.firstName.length === 0 || name.lastName.length === 0) {
-			error = true;
-			alert("FirstName and LastName cannot be empty.");
+		if(name.firstName.length === 0) {
+			this.setState({
+				error: true,
+				errorMessage: "FirstName cannot be empty"
+			});
+		} else if(name.lastName.length === 0) {
+			this.setState({
+				error: true,
+				errorMessage: "LastName cannot be empty"
+			});
+		} else {
+			this.setState(() => ({ error: '', errorMessage: '' }));
+			this.props.onSubmit({
+				name: {
+					firstName: name.firstName,
+					lastName: name.lastName
+				},
+				emails: emails,
+				phoneNumber: {
+					home: phoneNumber.home.value,
+					office: phoneNumber.office.value,
+					personal: phoneNumber.personal.value
+				},
+				dob: dob,
+			});
 		}
 	}
 
 	render() {
-		let {name, emails, phoneNumber, dob} = this.state;
+		let {name, emails, phoneNumber, dob, error, errorMessage} = this.state;
 		const phoneNumberDropdownOptions = ["Home", "Office", "Personal"];
 		return (
 			<div>
+				{
+					error &&
+					<div>{errorMessage}</div>
+				}
 				<h1>ContactFormContainer</h1>
-				<form onSubmit={this.onFormSubmit}>
+				<form onSubmit={this.onSubmit}>
 					<div>
 						<span>First Name : </span>
 						<input
@@ -191,8 +217,8 @@ class ContactForm extends Component {
 
 const mapStateToProps = (state, props) => {
 	return {
-		expense: state.contactLists.find((contact) => contact.id === props.match.params.id)
+		expense: state.find((contact) => contact.id === props.match.params.id)
 	};
 };
 
-export default connect(mapStateToProps)(ContactForm);
+export default ContactForm;

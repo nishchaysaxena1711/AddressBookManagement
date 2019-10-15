@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import ContactForm from './ContactForm.jsx';
+import { createContactDetails } from '../actions/actions.js';
 
-const CreateNewContactDetails = (contactLists) => {
+const CreateNewContactDetails = (props) => {
 	return (
 		<div>
 			CreateNewContactDetails
 			<ContactForm
-				onSubmit={(expense) => {
-					props.dispatch(addExpense(expense));
+				onSubmit={(contactDetails) => {
+					props.dispatch(createContactDetails(contactDetails));
 					props.history.push('/');
 				}}
 			/>
@@ -18,7 +19,7 @@ const CreateNewContactDetails = (contactLists) => {
 
 const mapStateToProps = (state) => {
 	return {
-		contactLists: state.contactLists
+		contactLists: state
 	};
 };
 
