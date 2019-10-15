@@ -1,20 +1,37 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import ContactItem from './ContactItem.jsx';
+import styled from 'styled-components';
+
+const EmptyContactContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 10px 0;
+`;
+
+const ContactListContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 10px 0;
+`;
 
 const ContactListViewContainer = (props) => {
-	console.log(this, props);
 	return (
-		<div>
-			<h1>ContactListViewContainer</h1>
+		<ContactListContainer>
+			<h1>Contact List</h1>
 			{
 				props.contactLists.length !== 0
 				? props.contactLists.map((contact) => {
 					return <ContactItem key={contact.id} {...contact} />;
 				})
-				: <h3>You have no contacts.</h3>
+				: <EmptyContactContainer>
+					<h3>Currently, you don't have any contacts in your book.</h3>
+					<h3>Press Create Contact link to create accounts.</h3>
+				</EmptyContactContainer>
 			}
-		</div>
+		</ContactListContainer>
 	);
 }
 
