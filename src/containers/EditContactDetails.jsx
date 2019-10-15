@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 
-class EditContactDetails extends Component {
-	render() {
-		return (
-			<div>
-				EditViewContainer
-			</div>
-		);
-	}
+const EditContactDetails = () => {
+	return (
+		<div>
+			EditViewContainer
+		</div>
+	);
 }
 
-export default EditContactDetails;
+const mapStateToProps = (state, props) => {
+	return {
+		expense: state.contactLists.find((contact) => contact.id === props.match.params.id)
+	};
+};
+
+export default connect(mapStateToProps)(EditContactDetails);

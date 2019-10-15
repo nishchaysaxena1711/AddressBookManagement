@@ -1,9 +1,9 @@
 import React from 'react';
-import ListViewContainer from './ListViewContainer.jsx';
+import ContactListViewContainer from './ContactListViewContainer.jsx';
 
 const AddressBookDashboardPage = () => (
 	<div>
-		<ListViewContainer />
+		<ContactListViewContainer />
 	</div>
 );
 
