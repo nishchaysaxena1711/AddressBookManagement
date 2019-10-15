@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 
 class ListViewContainer extends Component {
-    render() {
-        return (
-            <div>
-                <h1> Hello World from ListViewContainer! </h1>
-            </div>
-        );
-    }
+	render() {
+		return (
+			<div>
+				ListViewContainer
+			</div>
+		);
+	}
 }
 
 export default ListViewContainer;

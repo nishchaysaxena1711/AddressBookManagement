@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import validator from 'validator';
-import App from './containers/App.jsx';
-
-console.log(validator.isEmail('test'));
+import AppRouter from './routers/AppRouter';
 
 ReactDOM.render(
-	<App/>, 
+	<AppRouter />,
 	document.getElementById('app')
 );
