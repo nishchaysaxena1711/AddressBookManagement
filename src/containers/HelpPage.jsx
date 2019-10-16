@@ -17,6 +17,7 @@ const HelpPage = () => (
 		<span> 3. Command to run application : npm run dev-server </span>
 		<span> 4. Technologies Used : React, Redux </span>
 		<span> 5. State of application is managed within the Store </span>
+		<span> 6. Press enter key for search </span>
 	</HelpContainer>
 );
 
