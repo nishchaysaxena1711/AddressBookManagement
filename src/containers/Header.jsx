@@ -18,8 +18,8 @@ const Routes = styled.div`
 
 const Head = styled.header`
 	align-items: center;
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 `;
 
 const Header = () => (

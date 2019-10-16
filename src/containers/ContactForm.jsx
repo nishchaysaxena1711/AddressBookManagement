@@ -157,7 +157,7 @@ class ContactForm extends Component {
 				})
 			}
 			{
-				this.getEmailBox("", emails.length, "Enter another email")
+				this.getEmailBox("", emails.length, "Enter another email (Optional)")
 			}
 			</div>
 		)

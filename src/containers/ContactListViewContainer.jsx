@@ -28,7 +28,7 @@ const ContactListViewContainer = (props) => {
 				})
 				: <EmptyContactContainer>
 					<h3>Currently, you don't have any contacts in your book.</h3>
-					<h3>Press Create Contact link to create accounts.</h3>
+					<h3>Press click contact link to create accounts.</h3>
 				</EmptyContactContainer>
 			}
 		</ContactListContainer>

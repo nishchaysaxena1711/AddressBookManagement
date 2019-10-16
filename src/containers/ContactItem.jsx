@@ -9,18 +9,18 @@ import { Link } from 'react-router-dom';
 
 const ContactListContainer = styled.div`
 	border: 1px solid #000;
-    border-radius: 5px;
-    padding: 5px;
-    display: flex;
+	border-radius: 5px;
+	padding: 5px;
+	display: flex;
 	width: 400px;
 	margin-bottom: 15px;
 	height: 70px;
 `;
 
 const IconContainer = styled.div`
-    align-items: flex-end;
+	align-items: flex-end;
 	flex-direction: column;
-    display: flex;
+	display: flex;
 	margin-left:auto; 
 	margin-right:0;
 
@@ -110,7 +110,7 @@ class ContactListItem extends Component {
 						{
 							emails.length > 1 &&
 							<div className="icon">
-								<Link to={`/show/${id}`}
+								<Link to={`/show/email/${id}`}
 								>
 									<FiAtSign />
 								</Link>

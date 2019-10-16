@@ -4,8 +4,8 @@ import ContactListViewContainer from './ContactListViewContainer.jsx';
 
 const AddressBookDashboard = styled.div`
 	align-items: center;
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 	border: 1px solid #000;
 	margin: 30px 0 0;
 	height: 600px;
