@@ -23,14 +23,27 @@ const ContactListContainer = styled.div`
 	}
 `;
 
+const FilterPanel = styled.div`
+	display: flex;
+
+	#sort {
+		padding: 5px 10px;
+		margin-left: 10px;
+		border-radius: 3px;
+	}
+`;
+
 class ContactListViewContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			searchText: "",
-			searchTextArray: []
+			searchTextArray: [],
+			sortKey: "",
+			sortArray: []
 		};
-		this.onKeyPress =  this.onKeyPress.bind(this);
+		this.onKeyPress = this.onKeyPress.bind(this);
+		this.handleSort = this.handleSort.bind(this);
 	}
 
 	onSearchTextChange = (e) => {
@@ -56,19 +69,69 @@ class ContactListViewContainer extends Component {
 		}
 	}
 
+	handleSort = () => {
+		const {sortKey, searchTextArray} = this.state;
+		const {contactLists} = this.props;
+		this.setState({
+			sortKey: sortKey === "" ? "ASC" : sortKey === "ASC" ? "DSC" : "ASC"
+		});
+
+		let sortObject;
+		if(searchTextArray.length === 0) {
+			sortObject = contactLists;
+		} else {
+			sortObject = searchTextArray;
+		}
+
+		sortObject.sort(function(a, b){
+			let nameA = a.name.firstName.toLowerCase() + a.name.lastName.toLowerCase();
+			let nameB = b.name.firstName.toLowerCase() + b.name.lastName.toLowerCase();
+			if(sortKey === "ASC") {
+				if (nameA < nameB)
+					return -1; 
+				if (nameA > nameB)
+					return 1;
+			} else if(sortKey === "DSC") {
+				if (nameA > nameB)
+					return -1; 
+				if (nameA < nameB)
+					return 1;
+			}
+			return 0;
+		});
+
+		this.setState({
+			sortArray: sortObject
+		});
+	}
+
 	getFilters = () => {
 		return (
-			<div>
-				<span>Search </span>
-				<input
-					id="search"
-					type="text"
-					placeholder="Search"
-					value={this.state.searchText}
-					onChange={this.onSearchTextChange}
-					onKeyPress={this.onKeyPress}
-				/>
-			</div>
+			<FilterPanel>
+				<div>
+					<span>Search </span>
+					<input
+						id="search"
+						type="text"
+						placeholder="Search"
+						value={this.state.searchText}
+						onChange={this.onSearchTextChange}
+						onKeyPress={this.onKeyPress}
+					/>
+				</div>
+				<div>
+					{
+						(this.state.searchTextArray.length > 1 || this.props.contactLists.length > 1 )
+						&&
+						 <button
+							id="sort"
+							onClick={this.handleSort}
+						> 
+							Sort 
+						</button>
+					}
+				</div>
+			</FilterPanel>
 		);
 	}
 
