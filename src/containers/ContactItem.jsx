@@ -1,9 +1,11 @@
-import React, {Component} from 'react';\
+import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { FaRegEye } from 'react-icons/fa';
 import { FiAtSign, FiPhone, FiXCircle } from "react-icons/fi";
 import { deleteContactDetails } from '../actions/actions.js';
+import ShowContactDetails from "./ShowContactEmails.jsx";
+import { Link } from 'react-router-dom';
 
 const ContactListContainer = styled.div`
 	border: 1px solid #000;
@@ -43,8 +45,10 @@ class ContactListItem extends Component {
 		super(props);
 		this.state={
 			contactLists: props.contactLists | []
-		}
+		};
 		this.handleDeleteIcon = this.handleDeleteIcon.bind(this);
+		this.showContactDetails = this.showContactDetails.bind(this);
+		
 	}
 
 	handleDeleteIcon = (e) => {
@@ -52,6 +56,16 @@ class ContactListItem extends Component {
 		this.props.dispatch(deleteContactDetails({
 			id: e.currentTarget.id
 		}));
+	}
+
+	showContactDetails = (e) => {
+		return(
+			<div>
+				<ShowContactDetails
+					id={e.currentTarget.id}
+				/>
+			</div>
+		);
 	}
 
 	render() {
@@ -88,17 +102,28 @@ class ContactListItem extends Component {
 						</a>
 					</div>
 					<div className="lower_icon">
-						<div className="icon"><FaRegEye /></div>
+						<div className="icon">
+							<Link to={`/edit/${id}`}>
+								<FaRegEye />
+							</Link>
+						</div>
 						{
 							emails.length > 1 &&
 							<div className="icon">
-								<a><FiAtSign /></a>
+								<Link to={`/show/${id}`}
+								>
+									<FiAtSign />
+								</Link>
 							</div>
 						}
 						{
 							noOfPhone > 1 &&
 							<div className="icon">
-								<a><FiPhone /></a>
+								<a
+									id={id}
+								>
+									<FiPhone />
+								</a>
 							</div>
 						}
 					</div>

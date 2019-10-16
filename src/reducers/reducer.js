@@ -11,5 +11,8 @@ export default handleActions({
     },
     DELETE_CONTACT_DETAILS: (state, {payload} ) => {
 		return state.filter(({ id }) => id !== payload.id);
+    },
+    UPDATE_CONTACT_DETAILS: (state, {payload} ) => {
+        return payload;
     }
 }, contactDetails);

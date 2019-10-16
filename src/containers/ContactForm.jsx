@@ -70,33 +70,40 @@ const ErrorPanel = styled .div`
 class ContactForm extends Component {
 	constructor(props) {
 		super(props);
+		let homePhoneNum, workPhoneNum, personalPhoneNum;
+		if(props.contact) {
+			homePhoneNum = props.contact.phoneNumber.find(homePhoneNumberObj => homePhoneNumberObj.type === 'Home');
+			workPhoneNum = props.contact.phoneNumber.find(workPhoneNum => workPhoneNum.type === 'Work');
+			personalPhoneNum = props.contact.phoneNumber.find(personalPhoneNum => personalPhoneNum.type === 'Personal');
+		}
+
 		this.state = {
 			name: {
-				firstName: "",
-				lastName: ""
+				firstName: props.contact ? props.contact.name.firstName : "",
+				lastName: props.contact ? props.contact.name.lastName : ""
 			},
-			emails: [],
+			emails: props.contact ? props.contact.emails : [],
 			phoneNumbers: [
 				{
-					enabled: true,
+					enabled: homePhoneNum ? homePhoneNum.enabled : true,
 					type: 'Home',
-					countryCode: "",
-					number: ""
+					countryCode: homePhoneNum ? homePhoneNum.countryCode : "",
+					number: homePhoneNum ? homePhoneNum.number : ""
 				},{
-					enabled: false,
+					enabled: workPhoneNum ? workPhoneNum.enabled : false,
 					type: 'Work',
-					countryCode: "",
-					numer: ""
+					countryCode: workPhoneNum ? workPhoneNum.countryCode : "",
+					numer: workPhoneNum ? workPhoneNum.number : ""
 				},{
-					enabled: false,
+					enabled: personalPhoneNum ? personalPhoneNum.enabled : false,
 					type: 'Personal',
-					countryCode: "",
-					number: ""
+					countryCode: personalPhoneNum ? personalPhoneNum.countryCode : "",
+					number: personalPhoneNum ? personalPhoneNum.number : ""
 				}
 			],
-			dob: new Date(),
+			dob: props.contact ? props.contact.dob : new Date(),
 			error: false,
-			id: ""
+			id: props.contact ? props.contact.id : uuid()
 		}
 	}
 
@@ -212,7 +219,7 @@ class ContactForm extends Component {
 					id={phoneObject.type}
 					type="text"
 					maxLength="3"
-					value={name.firstName}
+					value={phoneObject.countryCode}
 					onChange={this.onCountryCodeChange}
 				/>
 				<input
@@ -221,7 +228,7 @@ class ContactForm extends Component {
 					type="text"
 					maxLength="10"
 					placeholder={"Enter your phone number"}
-					value={name.firstName}
+					value={phoneObject.number}
 					onChange={this.onPhoneNumberChange}
 				/>
 			</div>
@@ -231,7 +238,7 @@ class ContactForm extends Component {
 	onSubmit = (e) => {
 		e.preventDefault();
 
-		const {name, emails, phoneNumbers, dob} = this.state;
+		const {name, emails, phoneNumbers, dob, id} = this.state;
 		let error = false, validNumber=true;
 		phoneNumbers.forEach(phone => {
 			if(phone.enabled) {
@@ -270,7 +277,7 @@ class ContactForm extends Component {
 				emails: emails,
 				phoneNumber: phoneNumbers,
 				dob: dob,
-				id: uuid()
+				id: id
 			});
 		}
 	}
@@ -337,7 +344,7 @@ class ContactForm extends Component {
 						}
 					</div>
 					<button className="submitButton">
-						Create Account
+						{this.props.contact ? "Update Account" : "Create Account"}
 					</button>
 				</form>
 			</ContactFormContainer>
