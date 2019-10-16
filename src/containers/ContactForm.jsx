@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css'
-import validator from 'validator';
+import uuid from 'uuid';
 
 const ContactFormContainer = styled.div`
 	form {
@@ -94,7 +95,8 @@ class ContactForm extends Component {
 				}
 			],
 			dob: new Date(),
-			error: false
+			error: false,
+			id: ""
 		}
 	}
 
@@ -268,6 +270,7 @@ class ContactForm extends Component {
 				emails: emails,
 				phoneNumber: phoneNumbers,
 				dob: dob,
+				id: uuid()
 			});
 		}
 	}
@@ -342,4 +345,10 @@ class ContactForm extends Component {
 	}
 }
 
-export default ContactForm;
+const mapStateToProps = (state) => {
+	return {
+		contactLists: state
+	};
+};
+
+export default connect(mapStateToProps)(ContactForm);

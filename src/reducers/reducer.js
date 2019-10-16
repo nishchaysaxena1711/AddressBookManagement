@@ -8,5 +8,8 @@ export default handleActions({
             ...state,
             payload
         ]
+    },
+    DELETE_CONTACT_DETAILS: (state, {payload} ) => {
+		return state.filter(({ id }) => id !== payload.id);
     }
 }, contactDetails);

@@ -1,8 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';\
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { FaRegEye } from 'react-icons/fa';
-import { FiAtSign, FiPhone } from "react-icons/fi";
+import { FiAtSign, FiPhone, FiXCircle } from "react-icons/fi";
+import { deleteContactDetails } from '../actions/actions.js';
 
 const ContactListContainer = styled.div`
 	border: 1px solid #000;
@@ -11,10 +12,12 @@ const ContactListContainer = styled.div`
     display: flex;
 	width: 400px;
 	margin-bottom: 15px;
+	height: 70px;
 `;
 
 const IconContainer = styled.div`
     align-items: flex-end;
+	flex-direction: column;
     display: flex;
 	margin-left:auto; 
 	margin-right:0;
@@ -25,46 +28,90 @@ const IconContainer = styled.div`
 		padding: 6px 5px 2px;
 		border-radius: 5px;
 	}
+
+	.upper_icon {
+		margin-bottom: 5px;
+	}
+
+	.lower_icon {
+		display: flex;
+	}
 `;
 
-const ContactListItem = ({ name, emails, phoneNumber }) => {
-	let noOfPhone = 0;
-	phoneNumber.find(phone => {
-		if(phone.enabled) {
-			noOfPhone++;
+class ContactListItem extends Component {
+	constructor(props) {
+		super(props);
+		this.state={
+			contactLists: props.contactLists | []
 		}
-	})
-	return (
-		<ContactListContainer>
-			<div>
-				<span>{name.firstName} {name.lastName}</span>
-				<div>
-					<span>{emails[0].value}</span>
-					<span>{emails.length > 1 ? "  (" + (emails.length - 1) + "more)" : ""} </span>
-				</div>
-				<div>
-				
-					<span>{phoneNumber[0].countryCode + " " + phoneNumber[0].number}</span>
-					<span>{noOfPhone > 1 ? "  (" + (noOfPhone.length - 1) + "more)" : ""} </span>
-				</div>
-			</div>
-			<IconContainer>
-				<div className="icon"><FaRegEye /></div>
-				{
-					emails.length > 1 &&
-					<div className="icon">
-						<FiAtSign />
+		this.handleDeleteIcon = this.handleDeleteIcon.bind(this);
+	}
+
+	handleDeleteIcon = (e) => {
+		let {contactLists} = this.props;
+		this.props.dispatch(deleteContactDetails({
+			id: e.currentTarget.id
+		}));
+	}
+
+	render() {
+		let noOfPhone = 0;
+		const {name, emails, phoneNumber, id} = this.props;
+		phoneNumber.find(phone => {
+			if(phone.enabled) {
+				noOfPhone++;
+			}
+		});
+		return (
+			<ContactListContainer>
+				<div 
+					key={id}
+				>
+					<span>{name.firstName} {name.lastName}</span>
+					<div>
+						<span>{emails[0].value}</span>
+						<span>{emails.length > 1 ? "  (" + (emails.length - 1) + "more)" : ""} </span>
 					</div>
-				}
-				{
-					noOfPhone > 1 &&
-					<div className="icon">
-						<FiPhone />
+					<div>
+					
+						<span>{phoneNumber[0].countryCode + " " + phoneNumber[0].number}</span>
+						<span>{noOfPhone > 1 ? "  (" + (noOfPhone.length - 1) + "more)" : ""} </span>
 					</div>
-				}
-			</IconContainer>
-		</ContactListContainer>
-	);
+				</div>
+				<IconContainer>
+					<div className="upper_icon icon">
+						<a
+							id={id}
+							onClick={this.handleDeleteIcon}
+						>
+							<FiXCircle/>
+						</a>
+					</div>
+					<div className="lower_icon">
+						<div className="icon"><FaRegEye /></div>
+						{
+							emails.length > 1 &&
+							<div className="icon">
+								<a><FiAtSign /></a>
+							</div>
+						}
+						{
+							noOfPhone > 1 &&
+							<div className="icon">
+								<a><FiPhone /></a>
+							</div>
+						}
+					</div>
+				</IconContainer>
+			</ContactListContainer>
+		);
+	}
 }
 
-export default ContactListItem;
+const mapStateToProps = (state) => {
+	return {
+		contactLists: state
+	};
+};
+
+export default connect(mapStateToProps)(ContactListItem);
