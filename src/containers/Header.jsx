@@ -24,10 +24,9 @@ const Head = styled.header`
 
 const Header = () => (
 	<Head>
-		<h2>Welcome to address book managment portal !</h2>
+		<h2>Welcome to Room Management system !</h2>
 		<Routes>
-			<NavLink to="/" activeClassName="is-active" exact={true}>Dashboard</NavLink>
-			<NavLink to="/create" activeClassName="is-active">Create Contact</NavLink>
+			<NavLink to="/" activeClassName="is-active" exact={true}>Select Rooms</NavLink>
 			<NavLink to="/help" activeClassName="is-active">Help</NavLink>
 		</Routes>
 	</Head>

@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import AppRouter from './routers/AppRouter';
-import ContactDetailsStore  from './reducers/reducer.js';
+import RoomStore from './reducers/reducers.js';
 
-const store = createStore(ContactDetailsStore);
+const store = createStore(RoomStore);
 
 ReactDOM.render(
 	<Provider store={store}>
-		<AppRouter />
+		<AppRouter/>
 	</Provider>,
 	document.getElementById('app')
 );
